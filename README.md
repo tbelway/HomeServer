@@ -14,7 +14,7 @@ Setup HomeServer
 10) Boot to HDD (newly installed)
 11) Login
 12) Sudo zypper refresh
-13) Sudo zypper up -y
+13) Sudo zypper up -y -l
 14) Add repos
 
 sudo zypper addrepo http://download.opensuse.org/repositories/home:emby/openSUSE_Tumbleweed/home:emby.repo && sudo zypper addrepo http://download.opensuse.org/repositories/devel:/languages:/python/openSUSE_Tumbleweed/devel:languages:python.repo && sudo zypper addrepo http://download.opensuse.org/repositories/server:mail/openSUSE_Tumbleweed/server:mail.repo
@@ -26,7 +26,7 @@ sudo zypper addrepo http://download.opensuse.org/repositories/home:emby/openSUSE
 sudo zypper install emby-server && sudo zypper install certbot python-certbot && sudo zypper install msmtp && sudo zypper in nano && sudo zypper in apcupsd
 
 16) Update
-sudo zypper dup --no-allow-vendor-change
+sudo zypper dup -y -l --no-allow-vendor-change
 
 17) Add users:
 
