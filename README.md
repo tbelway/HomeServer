@@ -46,3 +46,19 @@ ChallengeResponseAuthentication no
 
 19) Install docker
 sudo zypper in docker -y -l
+
+20) SAMBA
+sudo yast2
+samba
+workgroup = BELWAYHOME
+During boot
+Open port in firewall
+
+21) Open other firewall ports
+sudo yast2
+Security -> Firewall -> Allowed Services -> Advanced ->
+
+TCP
+58846 59000 8096 9000 9117 8989
+UDP
+59000 59001 8096 9117 8989
