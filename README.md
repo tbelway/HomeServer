@@ -62,3 +62,82 @@ TCP
 58846 59000 8096 9000 9117 8989
 UDP
 59000 59001 8096 9117 8989
+
+22) Add fstab entry:
+sudo nano /etc/fstab
+
+#Raid Array
+UUID=dabd7365-2f27-4212-8cb8-cd9355c53167 /mnt/storage ext4 defaults 0 0
+
+sudo mkdir /mnt/storage && sudo mount -a && sudo chown nasaccess:nasaccess /mnt/storage && sudo chmod 770 /mnt/storage
+
+23) Enable Emby
+sudo systemctl enable emby-server
+
+sudo zypper in -y ffmpeg (only if necessary)
+
+24) Install deluge
+sudo zypper in -y -l deluge
+
+sudo su downloader
+deluge
+killall deluge
+
+cd /home/downloader/.config/deluge
+sudo nano auth
+
+downloader:"password":10
+
+sudo nano /home/downloader/.config/deluge/core.conf
+
+change allow-remote to true
+
+exit
+
+sudo touch /etc/systemd/system/deluged.service
+
+sudo nano /etc/systemd/system/deluged.service
+
+[Unit]
+Description=Deluge Bittorrent Client Daemon
+Documentation=man:deluged
+After=network-online.target
+[Service]
+Type=simple
+User=downloader
+Group=nasaccess
+UMask=007
+ExecStart=/usr/bin/deluged -d
+Restart=on-failure
+# Time to wait before forcefully stopped.
+TimeoutStopSec=300
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl enable /etc/systemd/system/deluged.service && sudo systemctl start deluged && sudo systemctl status deluged
+
+25)  Setup deluge
+
+Open deluge on another machine
+
+Connect to 10.1.2.10
+
+settings:
+
+Download to: /mnt/storage/Downloads
+Auto add .torrents from: /mnt/storage/Downloads/torrents
+Copy .torrents files to: /mnt/storage/Downloads/torrents
+
+Incoming Ports:
+59000 59001
+
+Disable Peer Exchange, LSD, and DHT
+
+Encryption:
+Set Inbound and Outbound to Forced
+Level Full Stream, encrypt entire stream
+
+Plugins:
+Extractor
+Label
+WebUi
